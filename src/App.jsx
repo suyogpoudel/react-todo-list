@@ -18,6 +18,8 @@ const App = () => {
 
     const deleteTask = (index) => {
         setTodos(todos.filter((todo,i) => i !== index))
+        console.log('deleted')
+
     }
 
 
