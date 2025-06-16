@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react'
 import Input from "./components/Input.jsx";
 
 const App = () => {
-
-    const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')))
+    const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
     const [input, setInput] = useState('');
+
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
-    })
+    }, [todos])
 
     const toggleDone = (index) => {
         setTodos(todos.map((todo, i) =>
@@ -17,7 +17,7 @@ const App = () => {
     }
 
     const deleteTask = (index) => {
-        setTodos(todos.filter((_,i) => i !== index))
+        setTodos(todos.filter((todo,i) => i !== index))
     }
 
 
@@ -27,7 +27,8 @@ const App = () => {
 
             <Input todos={todos} setTodos={setTodos} input={input} setInput={setInput}/>
 
-            {todos.length === 0 ?
+            {(!todos || todos.length === 0)
+                ?
                 <p className='text-[25px] opacity-75 text-center mt-7'>No tasks added yet :(</p> :
                 <ul className='mt-7 w-[55%] mx-auto flex flex-col gap-2'>
                     {todos.map(({task, done}, i) => (
